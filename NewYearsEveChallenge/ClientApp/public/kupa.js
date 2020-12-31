@@ -3,8 +3,8 @@ const tab = [];
 const draw = (e) => {
   const ctx = canvas.getContext("2d");
 
-  let x = e.clientX;
-  let y = e.clientY;
+  let x = e.clientX - canvas.offsetLeft;
+  let y = e.clientY - canvas.offsetTop;
   const cords = {
     x: x,
     y: y,
