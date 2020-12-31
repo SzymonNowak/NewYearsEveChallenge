@@ -1,7 +1,6 @@
 # NewYearsEveChallenge
 > An aspiring machine learning program 'name the picture'
-
-#Resources:
+## Resources:
 >[server](http://192.168.0.101:45456/)
 
 [quick, draw!](https://quickdraw.withgoogle.com/?fbclid=IwAR2od_Riw7BxH7xeBBKNS1Q2UHmqtokSNaTb5qycYuBSNDG3CWfj7mDqc78)
