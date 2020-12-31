@@ -1,13 +1,22 @@
-function draw() {
-  const canvas = document.getElementById("canvas");
-  if (canvas.getContext) {
-    console.log("elo");
-    const ctx = canvas.getContext("2d");
+const canvas = document.getElementById("canvas");
+const tab = [];
+const draw = (e) => {
+  const ctx = canvas.getContext("2d");
 
-    ctx.fillStyle = "rgb(200, 0, 0)";
-    ctx.fillRect(10, 10, 50, 50);
+  let x = e.clientX;
+  let y = e.clientY;
+  const cords = {
+    x: x,
+    y: y,
+  };
+  tab.push(cords);
+  if (tab.length > 1) {
+    ctx.beginPath();
+    ctx.moveTo(tab[tab.length - 2].x, tab[tab.length - 2].y);
+    ctx.lineTo(tab[tab.length - 2].x, tab[tab.length - 2].y);
+    ctx.lineTo(tab[tab.length - 1].x, tab[tab.length - 1].y);
+    ctx.stroke();
 
-    ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-    ctx.fillRect(30, 30, 50, 50);
+    tab.splice(tab[tab.length - 1], 2);
   }
-}
+};
