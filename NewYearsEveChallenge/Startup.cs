@@ -51,7 +51,7 @@ namespace NewYearsEveChallenge
             };
 
             app.UseWebSockets(webSocketOptions);
-            app.MapWebSocketManager("/ws", serviceProvider.GetService<ChatMessageHandler>());
+            app.MapWebSocketManager("/ws", serviceProvider.GetService<DrawingHandler>());
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
