@@ -48,10 +48,9 @@ window.addEventListener("touchend", stop);
 
 function drawLine(context, x1, y1, x2, y2) {
   const cords = {
-    x1: x1,
-    x2: x2,
-    y1: y1,
-    y2: y2,
+    x: x1,
+
+    y: y1,
   };
   context.beginPath();
   context.strokeStyle = "black";
@@ -60,7 +59,7 @@ function drawLine(context, x1, y1, x2, y2) {
   context.lineTo(x2, y2);
   context.stroke();
   tab.push(cords);
-  // socket.send(JSON.stringify(tab));
+  socket.send(JSON.stringify(tab));
   console.log(JSON.stringify(tab));
 
   context.closePath();
