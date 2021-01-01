@@ -2,6 +2,7 @@
 let isDrawing = false;
 let x = 0;
 let y = 0;
+const tab = [];
 
 const myPics = document.getElementById("canvas");
 const context = myPics.getContext("2d");
@@ -11,14 +12,11 @@ const context = myPics.getContext("2d");
 // Add the event listeners for mousedown, mousemove, and mouseup
 
 const start = (e) => {
-  console.log("start");
   x = e.offsetX;
   y = e.offsetY;
   isDrawing = true;
 };
 const drawing = (xNew, yNew) => {
-  console.log("draw", xNew, yNew);
-
   if (isDrawing === true) {
     drawLine(context, x, y, xNew, yNew);
     x = xNew;
@@ -27,8 +25,6 @@ const drawing = (xNew, yNew) => {
 };
 
 const stop = (e) => {
-  console.log("stop");
-
   if (isDrawing === true) {
     drawLine(context, x, y, e.offsetX, e.offsetY);
     x = 0;
@@ -63,7 +59,10 @@ function drawLine(context, x1, y1, x2, y2) {
   context.moveTo(x1, y1);
   context.lineTo(x2, y2);
   context.stroke();
-  socket.send(JSON.stringify(cords));
+  tab.push(cords);
+  // socket.send(JSON.stringify(tab));
+  console.log(JSON.stringify(tab));
+
   context.closePath();
 }
 
@@ -77,7 +76,6 @@ function connect() {
     console.log("closed connection from " + uri);
   };
   socket.onmessage = function (event) {
-    appendItem(list, event.data);
     console.log(event.data);
   };
   socket.onerror = function (event) {
@@ -85,20 +83,16 @@ function connect() {
   };
 }
 connect();
-var list = document.getElementById("messages");
-var button = document.getElementById("sendButton");
-button.addEventListener("click", function () {
-  var input = document.getElementById("textInput");
-  sendMessage(input.value);
 
-  input.value = "";
+var clearButton = document.getElementById("clear");
+
+clearButton.addEventListener("click", () => {
+  tab.splice(0, tab.length);
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  console.log(tab);
 });
+
 function sendMessage(message) {
   console.log("Sending: " + message);
   socket.send(message);
-}
-function appendItem(list, message) {
-  var item = document.createElement("li");
-  item.appendChild(document.createTextNode(message));
-  list.appendChild(item);
 }
