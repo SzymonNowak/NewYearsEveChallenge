@@ -83,15 +83,6 @@ def keras_process_image(img):
     return img
 
 
-def get_QD_emojis():
-    emojis_folder = 'qd_emo/'
-    emojis = []
-    for emoji in range(len(os.listdir(emojis_folder))):
-        print(emoji)
-        emojis.append(cv2.imread(emojis_folder + str(emoji) + '.png', -1))
-    return emojis
-
-
 def overlay(image, emoji, x, y, w, h):
     emoji = cv2.resize(emoji, (w, h))
     try:
