@@ -1,3 +1,5 @@
+import csv
+
 import cv2
 from keras.models import load_model
 import numpy as np
@@ -35,6 +37,7 @@ def main():
     blackboard = np.zeros((480, 640, 3), dtype=np.uint8)
     digit = np.zeros((200, 200, 3), dtype=np.uint8)
     pred_class = 0
+    iter = 0
 
     while (cap.isOpened()):
         ret, img = cap.read()
@@ -82,7 +85,12 @@ def main():
                         x, y, w, h = cv2.boundingRect(cnt)
                         digit = blackboard_gray[y:y + h, x:x + w]
                         pred_probab, pred_class = keras_predict(model, digit)
+                        print(pts)
                         print(names[pred_class])
+                        with open(str(names[pred_class])+str(iter)+'.csv', mode='w') as sample_file:
+                            writer = csv.writer(sample_file, delimiter='\n', quoting=csv.QUOTE_MINIMAL)
+                            writer.writerow(pts)
+                            iter += 1
                         #print(pred_class, pred_probab)
 
             pts = deque(maxlen=512)
