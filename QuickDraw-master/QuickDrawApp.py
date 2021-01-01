@@ -31,7 +31,7 @@ def main():
     pts = []
     iter = 0
     blackboard = np.zeros((420, 700, 3), dtype=np.uint8)
-    with open(f"watch2.csv") as f:
+    with open(f"data.csv") as f:
         lines = [line.rstrip('\n').replace("(", '').replace(")", '') for line in f]
         pts = [(int(cordStr.split(',')[0]), int(cordStr.split(',')[1])) for cordStr in lines]
     for i in range(1, len(pts)):

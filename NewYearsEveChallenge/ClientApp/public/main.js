@@ -56,6 +56,8 @@ const stop = (e) => {
     x = 0;
     y = 0;
     isDrawing = false;
+    socket.send(JSON.stringify(tab));
+    console.log(JSON.stringify(tab));
   }
 };
 
@@ -68,7 +70,7 @@ const gameStart = () => {
     if (distance <= 0) {
       clearInterval(timerek);
       timer.innerHTML = "time over";
-      resetCanvas();
+      //resetCanvas();
     }
   }, 1000);
 };
@@ -103,11 +105,8 @@ function drawLine(context, x1, y1, x2, y2) {
   context.moveTo(x1, y1);
   context.lineTo(x2, y2);
   context.stroke();
-  tab.push(cords);
-  socket.send(JSON.stringify(tab));
-  console.log(JSON.stringify(tab));
-
   context.closePath();
+  tab.push(cords);
 }
 
 var uri = "ws://" + window.location.host + "/ws";
