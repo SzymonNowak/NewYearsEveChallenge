@@ -49,18 +49,42 @@ canvas.addEventListener('mousedown', e => {
     };
     tab.push(cords);
 });
-canvas.addEventListener('mousemove', e => {
+canvas.addEventListener('touchstart', e => {
+    tab = [];
+    console.log(e);
+    let x = e.clientX - canvas.offsetLeft;
+    let y = e.clientY - canvas.offsetTop;
+    const cords = {
+        x: x,
+        y: y,
+    };
+    tab.push(cords);
+});
+
+canvas.addEventListener("mousemove", (e) => {
+    drawing(e.offsetX, e.offsetY);
+});
+canvas.addEventListener("touchmove", (e) => {
+    drawing(e.touches[0].clientX, e.touches[0].clientY);
+});
+const drawing = (xNew, yNew) => {
+    console.log(xNew, yNew);
     if (tab.length >= 1) {
         const cords = {
-            x: e.clientX - canvas.offsetLeft,
-            y: e.clientY - canvas.offsetTop,
+            x: xNew,
+            y: yNew,
         };
         drawLine(ctx, tab[tab.length - 1].x, tab[tab.length - 1].y,
             cords.x, cords.y);
         tab.push(cords);
     }
+};
+window.addEventListener('touchup', e => {
+    console.log(JSON.stringify(tab));
+    sendMessage(JSON.stringify(tab));
+    tab = [];
 });
-canvas.addEventListener('mouseup', e => {
+window.addEventListener('mouseup', e => {
     console.log(JSON.stringify(tab));
     sendMessage(JSON.stringify(tab));
     tab = [];
