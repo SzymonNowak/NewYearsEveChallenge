@@ -79,7 +79,7 @@ const drawing = (xNew, yNew) => {
         tab.push(cords);
     }
 };
-window.addEventListener('touchup', e => {
+window.addEventListener('touchend', e => {
     console.log(JSON.stringify(tab));
     sendMessage(JSON.stringify(tab));
     tab = [];
