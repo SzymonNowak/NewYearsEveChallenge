@@ -9,28 +9,46 @@ const context = myPics.getContext("2d");
 // event.offsetX, event.offsetY gives the (x,y) offset from the edge of the canvas.
 
 // Add the event listeners for mousedown, mousemove, and mouseup
-myPics.addEventListener("mousedown", (e) => {
+
+const start = (e) => {
+  console.log("start");
   x = e.offsetX;
   y = e.offsetY;
   isDrawing = true;
-});
+};
+const drawing = (xNew, yNew) => {
+  console.log("draw", xNew, yNew);
 
-myPics.addEventListener("mousemove", (e) => {
   if (isDrawing === true) {
-    drawLine(context, x, y, e.offsetX, e.offsetY);
-    x = e.offsetX;
-    y = e.offsetY;
+    drawLine(context, x, y, xNew, yNew);
+    x = xNew;
+    y = yNew;
   }
-});
+};
 
-window.addEventListener("mouseup", (e) => {
+const stop = (e) => {
+  console.log("stop");
+
   if (isDrawing === true) {
     drawLine(context, x, y, e.offsetX, e.offsetY);
     x = 0;
     y = 0;
     isDrawing = false;
   }
+};
+
+myPics.addEventListener("mousedown", start);
+myPics.addEventListener("touchstart", start);
+
+myPics.addEventListener("mousemove", (e) => {
+  drawing(e.offsetX, e.offsetY);
 });
+myPics.addEventListener("touchmove", (e) => {
+  drawing(e.touches[0].clientX, e.touches[0].clientY);
+});
+
+window.addEventListener("mouseup", stop);
+window.addEventListener("touchend", stop);
 
 function drawLine(context, x1, y1, x2, y2) {
   const cords = {
