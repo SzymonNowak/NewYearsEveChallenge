@@ -3,6 +3,24 @@ let isDrawing = false;
 let x = 0;
 let y = 0;
 const tab = [];
+const quests = [
+  "apple",
+  "Apple",
+  "Bowtie",
+  "Candle ",
+  "Door",
+  "Envelope ",
+  "Fish",
+  "Guitar",
+  "IceCream",
+  "Lightning",
+  "Mountain",
+  "Star",
+  "Tent",
+  "Toothbrush",
+  "Wristwatch",
+];
+
 let time = 10000000;
 const data = new Date().getTime();
 
@@ -12,7 +30,13 @@ const context = myPics.getContext("2d");
 // event.offsetX, event.offsetY gives the (x,y) offset from the edge of the canvas.
 
 // Add the event listeners for mousedown, mousemove, and mouseup
-
+const randomQuest = () => {
+  return quests[randomInt(0, quests.length)];
+};
+function randomInt(min, max) {
+  return min + Math.floor((max - min) * Math.random());
+}
+const actualQuest = randomQuest();
 const start = (e) => {
   x = e.offsetX;
   y = e.offsetY;
@@ -36,11 +60,16 @@ const stop = (e) => {
 };
 
 const gameStart = () => {
-  setInterval(function () {
+  const timerek = setInterval(function () {
     const now = new Date().getTime();
-    const distance = Math.floor((now - data) / 1000);
-
+    const roundTime = data + 24000;
+    const distance = Math.floor((roundTime - now) / 1000);
     timer.innerHTML = distance;
+    if (distance <= 0) {
+      clearInterval(timerek);
+      timer.innerHTML = "time over";
+      resetCanvas();
+    }
   }, 1000);
 };
 
@@ -66,7 +95,6 @@ window.addEventListener("touchend", stop);
 function drawLine(context, x1, y1, x2, y2) {
   const cords = {
     x: x1,
-
     y: y1,
   };
   context.beginPath();
@@ -104,6 +132,9 @@ connect();
 var clearButton = document.getElementById("clear");
 var anserw = document.getElementById("anserw");
 var timer = document.getElementById("timer");
+var quest = document.getElementById("quest");
+quest.addEventListener("onload", randomQuest);
+quest.innerHTML = ` Quest: ${actualQuest}`;
 
 clearButton.addEventListener("click", resetCanvas);
 
