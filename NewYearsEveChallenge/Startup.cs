@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace NewYearsEveChallenge
 {
@@ -19,7 +20,7 @@ namespace NewYearsEveChallenge
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddWebSocketManager();
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -40,7 +41,17 @@ namespace NewYearsEveChallenge
             {
                 app.UseExceptionHandler("/Error");
             }
+            var serviceScopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            var serviceProvider = serviceScopeFactory.CreateScope().ServiceProvider;
 
+            var webSocketOptions = new WebSocketOptions()
+            {
+                KeepAliveInterval = TimeSpan.FromSeconds(120),
+                ReceiveBufferSize = 4 * 1024
+            };
+
+            app.UseWebSockets(webSocketOptions);
+            app.MapWebSocketManager("/ws", serviceProvider.GetService<ChatMessageHandler>());
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
