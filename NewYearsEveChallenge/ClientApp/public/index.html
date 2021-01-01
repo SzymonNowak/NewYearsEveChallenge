@@ -33,7 +33,7 @@
   <body>
       <noscript> You need to enable JavaScript to run this app. </noscript>
       <div id="root">
-          <canvas id="canvas" width="700" height="420" onclick="draw(event)">
+          <canvas id="canvas" width="700" height="420">
               current stock price: $3.15 + 0.15
           </canvas>
       </div>
@@ -52,43 +52,5 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
       <script src="kupa.js"></script>
-      <script language="javascript" type="text/javascript">
-          var uri = "ws://" + window.location.host + "/ws";
-          function connect() {
-              socket = new WebSocket(uri);
-              socket.onopen = function (event) {
-                  console.log("opened connection to " + uri);
-              };
-              socket.onclose = function (event) {
-                  console.log("closed connection from " + uri);
-              };
-              socket.onmessage = function (event) {
-                  appendItem(list, event.data);
-                  console.log(event.data);
-              };
-              socket.onerror = function (event) {
-                  console.log("error: " + event.data);
-              };
-          }
-          connect();
-          var list = document.getElementById("messages");
-          var button = document.getElementById("sendButton");
-          button.addEventListener("click", function () {
-
-              var input = document.getElementById("textInput");
-              sendMessage(input.value);
-
-              input.value = "";
-          });
-          function sendMessage(message) {
-              console.log("Sending: " + message);
-              socket.send(message);
-          }
-          function appendItem(list, message) {
-              var item = document.createElement("li");
-              item.appendChild(document.createTextNode(message));
-              list.appendChild(item);
-          }
-      </script>
   </body>
 </html>
