@@ -5,7 +5,7 @@ from collections import deque
 import os
 
 model = load_model('QuickDraw.h5')
-names=[
+names = [
     "apple",
     "bow",
     "candle",
@@ -27,7 +27,7 @@ names=[
 
 def main():
     emojis = get_QD_emojis()
-    print(names)
+   # print(names)
     cap = cv2.VideoCapture(0)
     Lower_green = np.array([110, 50, 50])
     Upper_green = np.array([130, 255, 255])
@@ -82,7 +82,7 @@ def main():
                         x, y, w, h = cv2.boundingRect(cnt)
                         digit = blackboard_gray[y:y + h, x:x + w]
                         pred_probab, pred_class = keras_predict(model, digit)
-                        #print(names[pred_class])
+                        print(names[pred_class])
                         #print(pred_class, pred_probab)
 
             pts = deque(maxlen=512)
