@@ -33,7 +33,7 @@
       }
     </style>
   </head>
-  <body>
+  <body onload="gameStart()">
     <noscript> You need to enable JavaScript to run this app. </noscript>
     <div id="root">
       <canvas id="canvas" width="700" height="420">
@@ -41,6 +41,11 @@
       </canvas>
     </div>
     <button id="clear">clear</button>
+    <h1 id="anserw">Here</h1>
+    <h1>You Have only 20s.</h1>
+
+    <h1 id="timer">timer</h1>
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

@@ -3,6 +3,8 @@ let isDrawing = false;
 let x = 0;
 let y = 0;
 const tab = [];
+let time = 10000000;
+const data = new Date().getTime();
 
 const myPics = document.getElementById("canvas");
 const context = myPics.getContext("2d");
@@ -31,6 +33,21 @@ const stop = (e) => {
     y = 0;
     isDrawing = false;
   }
+};
+
+const gameStart = () => {
+  setInterval(function () {
+    const now = new Date().getTime();
+    const distance = Math.floor((now - data) / 1000);
+
+    timer.innerHTML = distance;
+  }, 1000);
+};
+
+const resetCanvas = () => {
+  tab.splice(0, tab.length);
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  console.log(tab);
 };
 
 myPics.addEventListener("mousedown", start);
@@ -75,6 +92,7 @@ function connect() {
     console.log("closed connection from " + uri);
   };
   socket.onmessage = function (event) {
+    anserw.innerHTML = event.data;
     console.log(event.data);
   };
   socket.onerror = function (event) {
@@ -84,12 +102,10 @@ function connect() {
 connect();
 
 var clearButton = document.getElementById("clear");
+var anserw = document.getElementById("anserw");
+var timer = document.getElementById("timer");
 
-clearButton.addEventListener("click", () => {
-  tab.splice(0, tab.length);
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  console.log(tab);
-});
+clearButton.addEventListener("click", resetCanvas);
 
 function sendMessage(message) {
   console.log("Sending: " + message);
